@@ -22,17 +22,17 @@ GROUP  BY customer_id
 
 WITH purchase_order_rank AS (
                              SELECT s.customer_id,
-	                                s.order_date,
-	                                m.product_name,
-	                                DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date) AS rank
-					         FROM   sales AS s
-					         JOIN   menu AS m
-					         ON     s.product_id = m.product_id
-							 GROUP  BY s.customer_id, s.order_date, m.product_name
-							 )
+			            s.order_date,
+				    m.product_name,
+				    DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date) AS rank
+		             FROM   sales AS s
+			     JOIN   menu AS m
+			     ON     s.product_id = m.product_id
+			     GROUP  BY s.customer_id, s.order_date, m.product_name
+			     )
 SELECT customer_id,
        product_name AS first_item_purchased,
-	   order_date
+       order_date
 FROM   purchase_order_rank
 WHERE  rank = 1
 
@@ -46,8 +46,8 @@ JOIN   menu AS m
 ON     s.product_id = m.product_id
 WHERE  s.product_id = (
                        SELECT MAX(product_id) 
-					   FROM   sales
-					   )
+		       FROM   sales
+		       )
 GROUP  BY m.product_name
 
 -- OR
@@ -65,18 +65,18 @@ ORDER  BY COUNT(s.product_id) DESC
 -- 5. Which item was the most popular for each customer?
 
 WITH favourite_item_rank AS (
-                             SELECT s.customer_id,
-	                                m.product_name,
-	                                COUNT(s.product_id) AS times_purchased,
-	                                DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY COUNT(s.product_id) DESC) AS rank
+                             SELECT s.customer_id, 
+			            m.product_name,
+				    COUNT(s.product_id) AS times_purchased,
+				    DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY COUNT(s.product_id) DESC) AS rank
                              FROM   sales AS s
                              JOIN   menu AS m
                              ON     s.product_id = m.product_id
                              GROUP  BY s.customer_id, m.product_name
 							 )
 SELECT customer_id,
-	   product_name AS favourite_item,
-	   times_purchased
+       product_name AS favourite_item,
+       times_purchased
 FROM   favourite_item_rank
 WHERE  rank = 1
 
@@ -85,21 +85,21 @@ WHERE  rank = 1
 
 WITH purchase_order_rank AS (
                              SELECT s.customer_id,
-	                                s.order_date,
-	                                m.product_name,
-									c.join_date,
-	                                DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date) AS rank
-					         FROM   sales AS s
-					         JOIN   menu AS m
-					         ON     s.product_id = m.product_id
-							 JOIN   members AS c
-							 ON     s.customer_id = c.customer_id
-							 WHERE  s.order_date >= c.join_date
-							 )
+			            s.order_date,
+				    m.product_name,
+				    c.join_date,
+				    DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date) AS rank
+			     FROM   sales AS s
+			     JOIN   menu AS m
+			     ON     s.product_id = m.product_id
+			     JOIN   members AS c
+			     ON     s.customer_id = c.customer_id
+			     WHERE  s.order_date >= c.join_date
+			     )
 SELECT customer_id,
        product_name AS first_item_purchased,
-	   join_date,
-	   order_date
+       join_date,
+       order_date
 FROM   purchase_order_rank 
 WHERE  rank = 1
 
@@ -108,21 +108,21 @@ WHERE  rank = 1
 
 WITH purchase_order_rank AS (
                              SELECT s.customer_id,
-	                                s.order_date,
-	                                m.product_name,
-									c.join_date,
-	                                DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date DESC) AS rank
-					         FROM   sales AS s
-					         JOIN   menu AS m
-					         ON     s.product_id = m.product_id
-							 JOIN   members AS c
-							 ON     s.customer_id = c.customer_id
-							 WHERE  s.order_date < c.join_date
-							 )
+			            s.order_date,
+				    m.product_name,
+				    c.join_date,
+				    DENSE_RANK() OVER(PARTITION BY s.customer_id ORDER BY s.order_date DESC) AS rank
+		             FROM   sales AS s
+			     JOIN   menu AS m
+			     ON     s.product_id = m.product_id
+			     JOIN   members AS c
+			     ON     s.customer_id = c.customer_id
+			     WHERE  s.order_date < c.join_date
+			     )
 SELECT customer_id,
        product_name AS last_item_purchased,
-	   order_date,
-	   join_date
+       order_date,
+       join_date
 FROM   purchase_order_rank 
 WHERE  rank = 1
 
@@ -130,8 +130,8 @@ WHERE  rank = 1
 -- 8. What is the total items and amount spent for each member before they became a member?
 
 SELECT s.customer_id,
-	   COUNT(s.product_id) AS total_items,
-	   SUM(m.price) AS total_amount_spent
+       COUNT(s.product_id) AS total_items,
+       SUM(m.price) AS total_amount_spent
 FROM   sales AS s
 JOIN   menu AS m
 ON     s.product_id = m.product_id
@@ -145,10 +145,10 @@ GROUP  BY s.customer_id
 
 SELECT s.customer_id,
        SUM(CASE 
-			   WHEN m.product_name = 'sushi' 
-			   THEN m.price * 20 
-		       ELSE m.price * 10 
-		   END) AS total_points
+               WHEN m.product_name = 'sushi' 
+	       THEN m.price * 20 
+	       ELSE m.price * 10 
+	   END) AS total_points
 FROM   sales AS s
 JOIN   menu AS m
 ON     s.product_id = m.product_id
@@ -173,10 +173,10 @@ WITH
      normal_points   AS (
                          SELECT s.customer_id,
                                 SUM(CASE 
-								        WHEN m.product_name = 'sushi' 
-										THEN m.price * 20 
-										ELSE m.price * 10 
-								    END) AS normal_points
+				        WHEN m.product_name = 'sushi' 
+					THEN m.price * 20 
+					ELSE m.price * 10 
+		                    END) AS normal_points
                          FROM   sales AS s
                          JOIN   menu AS m
                          ON     s.product_id = m.product_id
@@ -199,18 +199,18 @@ ON     j.customer_id = n.customer_id
 
 SELECT s.customer_id,
        s.order_date,
-	   m.product_name,
-	   m.price,
-	   CASE 
-	       WHEN EXISTS ( 
-		                SELECT customer_id
-						FROM   members AS c
-						WHERE  s.customer_id = c.customer_id
-						AND    s.order_date >= c.join_date
-						)
-		   THEN 'Y'
-		   ELSE 'N'
-	   END AS member
+       m.product_name,
+       m.price,
+       CASE 
+           WHEN EXISTS ( 
+	                SELECT customer_id
+			FROM   members AS c
+			WHERE  s.customer_id = c.customer_id
+			AND    s.order_date >= c.join_date
+			)
+	   THEN 'Y'
+	   ELSE 'N'
+       END AS member
 FROM   sales AS s
 JOIN   menu AS m
 ON     s.product_id = m.product_id
@@ -219,13 +219,13 @@ ON     s.product_id = m.product_id
 
 SELECT s.customer_id,
        s.order_date,
-	   m.product_name,
-	   m.price,
-	   CASE 
-	       WHEN s.order_date >= c.join_date
-		   THEN 'Y'
-		   ELSE 'N'
-	   END AS member
+       m.product_name,
+       m.price,
+       CASE 
+           WHEN s.order_date >= c.join_date
+	   THEN 'Y'
+	   ELSE 'N'
+       END AS member
 FROM   sales AS s
 JOIN   menu AS m
 ON     s.product_id = m.product_id
@@ -238,31 +238,31 @@ ON     s.customer_id = c.customer_id
 WITH joined_table AS (
                       SELECT s.customer_id,
                              s.order_date,
-	                         s.product_id,
-	                         m.product_name,
-	                         m.price,
-	                         CASE 
-	                             WHEN EXISTS ( 
-		                                      SELECT customer_id
-			                       			  FROM   members AS c
-					                       	  WHERE  s.customer_id = c.customer_id
-						                      AND    s.order_date >= c.join_date
-						                      )
-		                         THEN 'Y'
-		                         ELSE 'N'
-		                         END AS member			                 
+			     s.product_id,
+			     m.product_name,
+			     m.price,
+			     CASE 
+			         WHEN EXISTS ( 
+				              SELECT customer_id
+					      FROM   members AS c
+					      WHERE  s.customer_id = c.customer_id
+					      AND    s.order_date >= c.join_date
+					      )
+			         THEN 'Y'
+				 ELSE 'N'
+		            END AS member			                 
                      FROM   sales AS s
                      JOIN   menu AS m
                      ON     s.product_id = m.product_id
                      )
 SELECT customer_id,
        order_date,
-	   product_name,
-	   price,
-	   member,
-	   CASE  
-	       WHEN member = 'Y'
-		   THEN DENSE_RANK() OVER(PARTITION BY customer_id, member ORDER BY order_date)
-		   ELSE NULL
-	   END AS ranking
+       product_name,
+       price,
+       member,
+       CASE  
+           WHEN member = 'Y'
+	   THEN DENSE_RANK() OVER(PARTITION BY customer_id, member ORDER BY order_date)
+	   ELSE NULL
+       END AS ranking
 FROM   joined_table
