@@ -2,7 +2,7 @@
 
 - To read all about the case study and access the data: [Click Here!](https://8weeksqlchallenge.com/case-study-1/)
 - For my solutions: [Click Here!](https://github.com/EnyaCrocock/8_Week_SQL_Challenge/blob/main/Case%20Study%20%231%20-%20Danny's%20Diner/Danny's_Diner_Solutions.md)
----
+#
 <img width="300" src="https://user-images.githubusercontent.com/94410139/158028436-eba944af-bdcc-459f-9c2f-fbd868c6c0c1.png">
 
 ## Introduction 
