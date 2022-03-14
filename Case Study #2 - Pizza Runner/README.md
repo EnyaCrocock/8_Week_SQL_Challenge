@@ -1,7 +1,7 @@
 # 🍕 Case Study #2 - Pizza Runner
 
 - To read all about the case study and access the data: [Click Here!](https://8weeksqlchallenge.com/case-study-2/)
-- For my solutions: [Click Here!](
+
 #
 <img width="300" src="https://user-images.githubusercontent.com/94410139/158215978-83465a74-7ccf-457a-8770-f1bdaa0b5343.png">
 
