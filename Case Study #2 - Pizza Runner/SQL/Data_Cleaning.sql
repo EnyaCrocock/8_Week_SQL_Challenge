@@ -5,18 +5,18 @@
 
 SELECT order_id,
        customer_id,
-	   pizza_id,
-	   CASE 
-	       WHEN exclusions LIKE '%null%' OR exclusions IS NULL
-		   THEN '' 
-		   ELSE exclusions
+       pizza_id,
+       CASE 
+           WHEN exclusions LIKE '%null%' OR exclusions IS NULL
+	   THEN '' 
+	   ELSE exclusions
 	   END AS exclusions,
-	   CASE 
-	       WHEN extras LIKE '%null%' OR extras IS NULL
-		   THEN '' 
-		   ELSE extras
-	   END AS extras,
-	   order_time
+       CASE 
+           WHEN extras LIKE '%null%' OR extras IS NULL
+	   THEN '' 
+	   ELSE extras
+       END AS extras,
+       order_time
 INTO   ##customer_orders
 FROM   customer_orders
 
@@ -28,26 +28,26 @@ FROM   customer_orders
 
 SELECT order_id,
        runner_id,
-	   CASE 
-	       WHEN pickup_time LIKE '%null%' 
-		   THEN NULL
-		   ELSE pickup_time
-		   END AS pickup_time,
-	   CASE
-	       WHEN distance LIKE '%null%' 
-		   THEN NULL
-		   ELSE TRIM('%km%' FROM distance) 
-	   END AS distance_km,
-	   CASE 
-	       WHEN duration LIKE '%null%' 
-		   THEN NULL
-		   ELSE LEFT(duration, 2)
-	   END AS duration_minutes,
-	   CASE 
-	       WHEN cancellation IS NULL OR cancellation LIKE '%null%'
-		   THEN ''
-		   ELSE cancellation
-	   END AS cancellation
+       CASE 
+           WHEN pickup_time LIKE '%null%' 
+	   THEN NULL
+	   ELSE pickup_time
+       END AS pickup_time,
+       CASE
+           WHEN distance LIKE '%null%' 
+	   THEN NULL
+	   ELSE TRIM('%km%' FROM distance) 
+       END AS distance_km,
+       CASE 
+           WHEN duration LIKE '%null%' 
+	   THEN NULL
+	   ELSE LEFT(duration, 2)
+       END AS duration_minutes,
+       CASE 
+           WHEN cancellation IS NULL OR cancellation LIKE '%null%'
+	   THEN ''
+	   ELSE cancellation
+       END AS cancellation
 INTO   ##runner_orders
 FROM   runner_orders
 
