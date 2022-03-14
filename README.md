@@ -49,5 +49,5 @@ Danny started by recruiting “runners” to deliver fresh pizza from Pizza Runn
 - [Click Here](https://8weeksqlchallenge.com/case-study-2/)
 
 ### My Solutions:
--
+- [Click Here](https://github.com/EnyaCrocock/8_Week_SQL_Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner)
 
