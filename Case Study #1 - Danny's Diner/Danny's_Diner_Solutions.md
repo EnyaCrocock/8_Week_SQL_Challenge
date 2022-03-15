@@ -36,7 +36,9 @@ GROUP  BY customer_id
 - Create a `CTE`  
   - In it, create a new column to show a `ranking of the items purchased by each customer (customer_id) based on the date of purchase (order_date)` 
     - Rank 1 will be the first item purchased (the one with the earliest date), 2 the second...
-    - For this you can use RANK or DENSE_RANK
+    - For this you can use `RANK` or `DENSE_RANK`
+      - The difference between RANK & DENSE_RANK: 
+         - Imagine there are 3 people in a race and 2 are in 1st place RANK's output would be 1st, 1st, 3rd and DENSE_RANK's output would be 1st, 1st, 2nd. 
 - From that CTE we then want to `select the first item purchased by each customer` 
   - This is `WHERE rank = 1`
 
