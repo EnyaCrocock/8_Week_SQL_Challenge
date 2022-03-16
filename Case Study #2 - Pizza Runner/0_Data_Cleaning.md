@@ -1,4 +1,4 @@
-# 🍕 Case Study #2 - Pizza Runner Cleaning
+# 🍕 Pizza Runner Data Cleaning
 
 ## Initial Cleaning:
 
@@ -130,7 +130,7 @@ ADD          record_id INT IDENTITY (1,1)
 ### 3. New Tables: `Exclusions` & `Extras` 
 
 #### Original table:
-![image](https://user-images.githubusercontent.com/94410139/158224356-f289bf32-0cf2-460b-a25b-b27c82bf243d.png)
+![image](https://user-images.githubusercontent.com/94410139/158246338-0833d930-6d47-41e9-aadb-26f41c454b0a.png)
 
 #### Changes:
 - Splitting the exclusions & extras comma delimited lists into rows and storing in new tables
