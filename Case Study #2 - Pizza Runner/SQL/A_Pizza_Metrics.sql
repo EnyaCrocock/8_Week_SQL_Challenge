@@ -30,18 +30,17 @@ GROUP  BY p.pizza_name
 
 -- 5. How many Vegetarian and Meatlovers were ordered by each customer?
 
-
 SELECT c.customer_id,
        SUM(CASE 
-	           WHEN p.pizza_name LIKE'%Meatlovers%' 
-		       THEN 1
-		       ELSE 0
-	       END) AS meatlovers,
+               WHEN p.pizza_name LIKE'%Meatlovers%' 
+	       THEN 1
+	       ELSE 0
+	   END) AS meatlovers,
        SUM(CASE 
-	           WHEN p.pizza_name LIKE'%Vegetarian%' 
-		       THEN 1
-		       ELSE 0
-	       END) AS vegetarian
+               WHEN p.pizza_name LIKE'%Vegetarian%' 
+	       THEN 1
+	       ELSE 0
+	   END) AS vegetarian
 FROM   ##customer_orders AS c
 JOIN   pizza_names AS p
 ON     c.pizza_id = p.pizza_id
@@ -50,8 +49,8 @@ GROUP  BY c.customer_id
 -- OR
 
 SELECT c.customer_id,
-	   p.pizza_name,
-	   COUNT(p.pizza_name) AS total_orders
+       p.pizza_name,
+       COUNT(p.pizza_name) AS total_orders
 FROM   ##customer_orders AS c
 JOIN   pizza_names AS p
 ON     c.pizza_id = p.pizza_id
@@ -74,15 +73,15 @@ ORDER  BY total_pizzas_delivered DESC
 
 SELECT c.customer_id,
        SUM(CASE 
-	           WHEN c.exclusions <> '' OR c.extras <> ''
-			   THEN 1
-			   ELSE 0
-		    END) AS at_least_1_change,
-	   SUM(CASE 
-	           WHEN c.exclusions = '' AND c.extras = ''
-			   THEN 1
-			   ELSE 0
-		    END) AS no_changes
+               WHEN c.exclusions <> '' OR c.extras <> ''
+	       THEN 1
+	       ELSE 0
+	   END) AS at_least_1_change,
+       SUM(CASE 
+               WHEN c.exclusions = '' AND c.extras = ''
+	       THEN 1
+	       ELSE 0
+	   END) AS no_changes
 FROM   ##customer_orders AS c
 JOIN   ##runner_orders AS r
 ON     c.order_id = r.order_id
@@ -92,10 +91,10 @@ GROUP  BY customer_id
 -- 8. How many pizzas were delivered that had both exclusions and extras?
 
 SELECT SUM(CASE 
-	           WHEN c.exclusions <> '' AND c.extras <> ''
-			   THEN 1
-			   ELSE 0
-		    END) AS exclusions_and_extras
+               WHEN c.exclusions <> '' AND c.extras <> ''
+	       THEN 1
+	       ELSE 0
+	   END) AS exclusions_and_extras
 FROM   ##customer_orders AS c
 JOIN   ##runner_orders AS r
 ON     c.order_id = r.order_id
