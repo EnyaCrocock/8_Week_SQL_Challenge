@@ -1,4 +1,6 @@
-# 🍜 Case Study #1 - Danny's Diner Solutions
+# 🍜 Danny's Diner Solutions
+
+<p align="right"> Using Microsoft SQL Server </p>
 
 ## Questions
 
