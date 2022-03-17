@@ -1,5 +1,7 @@
 # 🍕 A. Pizza Metrics Solutions
 
+<p align="right"> Using Microsoft SQL Server </p>
+
 ## Questions
 
 ### 1. How many pizzas were ordered?
