@@ -81,7 +81,7 @@ FROM   runner_orders
 
 - For `runner_orders` changed:
   - pickup_time to DATETIME
-  - distance_km to FLOAT
+  - distance_km to DECIMAL(4,2)
   - duration_minutes to INT
 
 - For `customer_orders` changed:
