@@ -147,3 +147,16 @@ ORDER  BY runner_id, order_id
   - Runner 2 tends to drive the fastest, and does so when the orders are at night. Their fastest speed was on a Friday at midnight (So Thursday to Friday), a weekday with probably no traffic and late at night so might have wanted to finish faster. 
   - Runner 3 has just had one delivery and drove at 40km/h.
 
+#
+### 7. What is the successful delivery percentage for each runner?
+
+```sql
+SELECT runner_id,
+       COUNT(order_id) AS total_orders,
+       COUNT(pickup_time) AS successful_deliveries,
+       CAST(COUNT(pickup_time) AS FLOAT) / CAST(COUNT(order_id) AS FLOAT) * 100 AS successful_delivery_percentage
+FROM   ##runner_orders
+GROUP  BY runner_id
+```
+#### Result
+![image](https://user-images.githubusercontent.com/94410139/159052302-d5e4e70a-bb43-4bc9-8f16-503892aaae36.png)
