@@ -120,7 +120,7 @@ CROSS  APPLY STRING_SPLIT(toppings, ',')
 ![image](https://user-images.githubusercontent.com/94410139/158224952-dbd73d3f-cde4-4c9a-b066-49907a03b270.png)
 
 #### Changes:
-- Adding an Identity Column 
+- Adding an Identity Column (to be able to uniquely identify every single pizza ordered)
 
 ```sql
 ALTER TABLE  ##customer_orders
