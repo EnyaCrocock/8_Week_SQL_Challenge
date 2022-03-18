@@ -131,12 +131,13 @@ ADD          record_id INT IDENTITY (1,1)
 #
 ### 3. New Tables: `Exclusions` & `Extras` 
 
-#### Original table:
+#### Original table ##customer_orders:
 ![image](https://user-images.githubusercontent.com/94410139/158246338-0833d930-6d47-41e9-aadb-26f41c454b0a.png)
 
 #### Changes:
 - Splitting the exclusions & extras comma delimited lists into rows and storing in new tables
 
+#### New Exclusions Table:
 ```sql
 SELECT record_id,
        TRIM(value) AS exclusions_id
@@ -146,6 +147,7 @@ CROSS  APPLY STRING_SPLIT(exclusions, ',')
 ```
 ![image](https://user-images.githubusercontent.com/94410139/158248028-26634028-b3c5-4925-b3cd-be622db5e02a.png)
 
+#### New Extras Table:
 ```sql
 SELECT record_id,
        TRIM(value) AS extras_id
