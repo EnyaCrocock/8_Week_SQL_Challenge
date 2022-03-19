@@ -25,7 +25,7 @@ FROM   ##customer_orders
 
 #
 ### 3. How many successful orders were delivered by each runner?
-- `Cancelled orders have pickup_time as NULL` so a COUNT of pickup_time will give us the number of successfull orders
+- `Cancelled orders have pickup_time as NULL` so a COUNT of pickup_time will give us the number of successfull orders.
 
 ```sql
 SELECT runner_id,
@@ -38,8 +38,8 @@ GROUP  BY runner_id
 
 #
 ### 4. How many of each type of pizza was delivered?
-- Once again, delivered pizzas have a pickup_time 
-- So we can `SELECT the pizza_names as well as the COUNT of pickup_time`
+- Once again, delivered pizzas have a pickup_time.
+- So we can `SELECT the pizza_names as well as the COUNT of pickup_time`.
 
 ```sql
 SELECT p.pizza_name,
@@ -56,7 +56,7 @@ GROUP  BY p.pizza_name
 
 #
 ### 5. How many Vegetarian and Meatlovers were ordered by each customer?
-- Here we can use the SUM function with a CASE statement
+- Here we can use the SUM function with a CASE statement.
 
 ```sql
 SELECT c.customer_id,
@@ -80,8 +80,8 @@ GROUP  BY c.customer_id
 
 #
 ### 6. What was the maximum number of pizzas delivered in a single order?
-- Here we want the max number of pizzas `delivered` in a single order
-  - So we need a `WHERE` clause to filter only orders where `pickup_time IS NOT NULL` (order was not cancelled)
+- Here we want the max number of pizzas `delivered` in a single order.
+  - So we need a `WHERE` clause to filter only orders where `pickup_time IS NOT NULL` (order was not cancelled).
 - Then we can use `SELECT TOP 1`, and `ORDER by the COUNT of pizza_id in DESCENDING order` (largest count first) to get the max count of pizzas delivered.
 
 ```sql
@@ -100,10 +100,10 @@ ORDER  BY total_pizzas_delivered DESC
 
 #
 ### 7. For each customer, how many delivered pizzas had at least 1 change and how many had no changes?
-- Again, we want delivered pizzas so we need the same WHERE clause as before
-- To know if there are changes or not we look at the `exclusions and extras columns` 
-  - If both fileds are BLANK ('') then there are no changes
-  - If either are populated, so not BLANK ('') then there are changes
+- Again, we want delivered pizzas so we need the same WHERE clause as before.
+- To know if there are changes or not we look at the `exclusions and extras columns`.
+  - If both fileds are BLANK ('') then there are no changes.
+  - If either are populated, so not BLANK ('') then there are changes.
   
 ```sql
 SELECT c.customer_id,
@@ -128,8 +128,8 @@ GROUP  BY customer_id
 
 #
 ### 8. How many pizzas were delivered that had both exclusions and extras?
-- This is when `both fields` in the exclusions and extras columns `are populated`, so not BLANK ('')
-- Again, we want delivered pizzas so we need the same WHERE clause as before
+- This is when `both fields` in the exclusions and extras columns `are populated`, so not BLANK ('').
+- Again, we want delivered pizzas so we need the same WHERE clause as before.
 
 ```sql
 SELECT SUM(CASE 
@@ -147,9 +147,9 @@ WHERE  r.pickup_time IS NOT NULL
 
 #
 ### 9. What was the total volume of pizzas ordered for each hour of the day?
-- Here we can use `DATEPART` to `extract the HOUR from order_date`
-- Using `DATENAME`would give us the same result
-  - The difference is DATEPART returns an intiger, while DATENAME returns a string
+- Here we can use `DATEPART` to `extract the HOUR from order_date`.
+  - Using `DATENAME`would give us the same result.
+    - The difference is DATEPART returns an intiger, while DATENAME returns a string.
   
 ```sql
 SELECT DATEPART(HOUR,order_time) AS hour,
@@ -163,8 +163,8 @@ ORDER  BY pizzas_ordered DESC
 
 #
 ### 10. What was the volume of orders for each day of the week?
-- Here we can use `DATENAME` to `extract the WEEKDAY with their actual names (Monday, Tuesday...)` instead of numbers (1, 2...) from order_time
-  - Using `DATEPART` here would return the weekday as a number 
+- Here we can use `DATENAME` to `extract the WEEKDAY with their actual names (Monday, Tuesday...)` instead of numbers (1, 2...) from order_time.
+  - Using `DATEPART` here would return the weekday as a number.
   
 ```sql
 SELECT DATENAME(WEEKDAY,order_time) AS weekday,
