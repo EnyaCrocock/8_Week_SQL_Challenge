@@ -139,6 +139,7 @@ These next few questions did give me a headache... but I'm going to try to expla
 
 #### One way to achieve this
 - Create `2 CTE's`: One for exclusions and one for extras.
+  - We want to know what was excluded or added to each pizza.
   - In these CTE's we are going to SELECT the record_id (The unique identifier for every pizza ordered, [that we created in the data cleaning section](#2-table-customer_orders)) and the topping_name for those extras or exclusions.
     - We are using `STRING_AGG` to show those topping names in a comma delimited list (as that is how we need them in the final output).
     
@@ -222,6 +223,7 @@ ON    c.pizza_id = n.pizza_id
 
 #### One way to achieve this
 - Create a `CTE` for the ingredients
+  - We want to know what ingredients made each pizza as well as if anything had to be doubled. 
   - In this CTE we are going to SELECT the record_id, the pizza_name, the topping_name, create a CASE Statement to show the '2x' and add a WHERE clause to exclude all the exclusions from the list of ingredients.
     - `The CASE Statement`:
     - We want to generate a column (I called it extras) where it shows a '2x' by any record (so, any pizza) that has a topping in its list of ingredients (topping_id) that exists in the extras_id column in the [##extras table](#new-extras-table) (so, when that topping was added as an extra). 
@@ -291,6 +293,7 @@ GROUP  BY c.record_id, c.order_id, c.customer_id, c.pizza_id, c.exclusions, c.ex
 
 #### One way to achieve this
 - Create a `CTE`:
+- We want to know what ingredients as well as what quantity of each ingredient was needed to make each pizza (was the ingredient removed? was it doubled?). 
 - In this CTE we are going to SELECT the record_id, the pizza_name, the topping_name, create a CASE Statement to show the times every ingredient was used in each pizza.
   - The `CASE Statemet`:
     - We want to generate a column (I called it times_used) where it shows a 2 by any record (so, any pizza) that has a topping in its list of ingredients (topping_id) that exists in the extras_id column in the [##extras table](#new-extras-table) (so, when that topping was added as an extra). Then a 0 by any record (so, any pizza) that has a topping in its list of ingredients (topping_id) that exists in the exclusions_id column in the [##exclusions table](#new-exclusions-table) (so, when that topping was removed). And a 1 by anythig else. 
