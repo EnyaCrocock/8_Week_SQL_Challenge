@@ -35,13 +35,13 @@ GROUP  BY customer_id
 ### 3. What was the first item from the menu purchased by each customer?
 
 
-- Create a `CTE`  
-  - In it, create a new column to show a `ranking of the items purchased by each customer (customer_id) based on the date of purchase (order_date)` 
+- Create a `CTE`: 
+  - In it, create a new column to show a `ranking of the items purchased by each customer (customer_id) based on the date of purchase (order_date)`.
     - Rank 1 will be the first item purchased (the one with the earliest date), 2 the second...
-    - For this you can use `RANK` or `DENSE_RANK`
+    - For this you can use `RANK` or `DENSE_RANK`.
       - The difference between RANK & DENSE_RANK: 
          - Imagine there are 3 people in a race and 2 are in 1st place RANK's output would be 1st, 1st, 3rd and DENSE_RANK's output would be 1st, 1st, 2nd. 
-- From that CTE we then want to `select the first item purchased by each customer` 
+- From that CTE we then want to `select the first item purchased by each customer`. 
   - This is `WHERE rank = 1`
 
 ```sql
@@ -95,10 +95,10 @@ ORDER  BY COUNT(s.product_id) DESC
 ### 5. Which item was the most popular for each customer?
 
 - Create a `CTE`  
-- In it, create a new column to show a `ranking of the items purchased by each customer (customer_id) based on the times purchased (COUNT of product_id)` 
+- In it, create a new column to show a `ranking of the items purchased by each customer (customer_id) based on the times purchased (COUNT of product_id).
   - Rank 1 will be the most purchased item, 2 the second...
-  - For this you can use RANK or DENSE_RANK
-- From that CTE we then want to `select the most purchased item by each customer` 
+  - For this you can use RANK or DENSE_RANK.
+- From that CTE we then want to `select the most purchased item by each customer`. 
   - This is `WHERE rank = 1`
 
 ```sql
@@ -134,12 +134,12 @@ WHERE  rank = 1
 ### 6. Which item was purchased first by the customer after they became a member?
 
 - Create a `CTE`
-  - In it, create a new column to show a `ranking of the items purchased by each customer (customer_id) based on the date of purchase (order_date)` 
+  - In it, create a new column to show a `ranking of the items purchased by each customer (customer_id) based on the date of purchase (order_date)`. 
     - Rank 1 will be the first item purchased, 2 the second...
-    - For this you can use RANK or DENSE_RANK
-  - We need to include a `WHERE clause` in the CTE as we `only want items purchased after they became a member`
+    - For this you can use RANK or DENSE_RANK.
+  - We need to include a `WHERE clause` in the CTE as we `only want items purchased after they became a member`.
     - WHERE order_date >= join_date
-- From that CTE we then want to `select the first item purchased by each customer` 
+- From that CTE we then want to `select the first item purchased by each customer`. 
   - This is `WHERE rank = 1`
 
 ```sql
@@ -174,12 +174,12 @@ WHERE  rank = 1
 ### 7. Which item was purchased just before the customer became a member?
 
 - Create a `CTE`
-  - In it, create a new column to show a `ranking of the items purchased by each customer (customer_id) based on the date of purchase (order_date) in descending order` 
+  - In it, create a new column to show a `ranking of the items purchased by each customer (customer_id) based on the date of purchase (order_date) in descending order`. 
     - Rank 1 will be the last item purchased (the item purchased on latest date), 2 the second...
-    - For this you can use RANK or DENSE_RANK
-  - We need to include a `WHERE clause` in the CTE as we `only want items purchased before they became a member`
+    - For this you can use RANK or DENSE_RANK.
+  - We need to include a `WHERE clause` in the CTE as we `only want items purchased before they became a member`.
     - WHERE order_date < join_date
-- From that CTE we then want to `select the first item purchased by each customer` 
+- From that CTE we then want to `select the first item purchased by each customer`. 
   - This is `WHERE rank = 1`
 
 ```sql
@@ -232,12 +232,12 @@ GROUP  BY s.customer_id
 
 ### 9. If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 
-- Every $1 = 10 points
-- For sushi $1 = 20 points (2 x 10) 
+- Every $1 = 10 points.
+- For sushi $1 = 20 points (2 x 10). 
 - We want to SUM each customers points. 
   - One way to do this is using the `SUM funcion with a CASE statement`:
-       - When the product name is sushi then multiply the price by 20, when not then multiply it by 10
-       - Then sum all the points 
+       - When the product name is sushi then multiply the price by 20, when not then multiply it by 10.
+       - Then sum all the points.
 
 ```sql
 SELECT s.customer_id,
@@ -258,19 +258,19 @@ GROUP  BY s.customer_id
 
 ### 10. In the first week after a customer joins the program (including their join date) they earn 2x points on all items, not just sushi - how many points do customer A and B have at the end of January?
 
-- On the week the customer joins (from join date to 7 days after) $1 = 20 points
-- Every other day $1 = 10 points
-- For this we can create 2 CTE's, one to calculate join week points and another for normal day points 
-  - For the `join_week_points CTE`
-    - Here we want to calculate the points earned by each customer on their join week
-    - Multiply the price x 20 and SUM all the points
-    - Use a `WHERE` clause to filter only the items purchased `BETWEEN` the join date and 7 days after (a week)
-  - For the `normal_points CTE`
-    - Here we want to calculate the points earned by each customer for the month of January, excluding the join week 
-    - Use the same SUM function with the CASE statement as for the previous question
-    - Use a `WHERE` clause to filter the items puchased on the `month of January` (MONTH(order_date) = 1) 
-    - AND the items purchased `NOT BETWEEN` the join date and 7 days after (filter out join week)
-- From those CTE's we want to select the customer_id's and the sum of join_week_points and normal_points
+- On the week the customer joins (from join date to 7 days after) $1 = 20 points.
+- Every other day $1 = 10 points.
+- For this we can create 2 CTE's, one to calculate join week points and another for normal day points.
+  - For the `join_week_points CTE`:
+    - Here we want to calculate the points earned by each customer on their join week.
+    - Multiply the price x 20 and SUM all the points.
+    - Use a `WHERE` clause to filter only the items purchased `BETWEEN` the join date and 7 days after (a week).
+  - For the `normal_points CTE`:
+    - Here we want to calculate the points earned by each customer for the month of January, excluding the join week.
+    - Use the same SUM function with the CASE statement as for the previous question.
+    - Use a `WHERE` clause to filter the items puchased on the `month of January` (MONTH(order_date) = 1). 
+    - AND the items purchased `NOT BETWEEN` the join date and 7 days after (filter out join week).
+- From those CTE's we want to select the customer_id's and the sum of join_week_points and normal_points.
 
 ```sql
 WITH 
@@ -321,8 +321,8 @@ ON     j.customer_id = n.customer_id
 
   <img width="300" src="https://user-images.githubusercontent.com/94410139/158183700-39da11dc-067d-42e7-8367-86dc3c182031.png">
 #    
-- For this we can use `CASE WHEN EXISTS`
-  - When the `customer_id EXISTS in the members table and the order_date is after or on the join_date` then 'Y' (they are a member at that time), else 'N' (they are not)
+- For this we can use `CASE WHEN EXISTS`:
+  - When the `customer_id EXISTS in the members table and the order_date is after or on the join_date` then 'Y' (they are a member at that time), else 'N' (they are not).
  
 ```sql
 SELECT s.customer_id,
@@ -355,10 +355,10 @@ ON     s.product_id = m.product_id
 
   <img width="300" src="https://user-images.githubusercontent.com/94410139/158209150-dc41af27-5565-42b7-9fea-af8f553f6801.png">
 #
-- For this create a CTE with the joined table from the last question
-- Then SELECT everything from that table and add a new column for the ranking 
-   - For the RANK we need to `PARTITION by both customer_id and member`
-   - You can use RANK or DENSE_RANK
+- For this create a CTE with the joined table from the last question.
+- Then SELECT everything from that table and add a new column for the ranking.
+   - For the RANK we need to `PARTITION by both customer_id and member`.
+   - You can use RANK or DENSE_RANK.
  
  ```sql
  WITH joined_table AS (
