@@ -260,7 +260,7 @@ GROUP  BY s.customer_id
 
 - On the week the customer joins (from join date to 7 days after) $1 = 20 points
 - Every other day $1 = 10 points
-- For this I created 2 CTE's, one to calculate join week points and another for normal day points 
+- For this we can create 2 CTE's, one to calculate join week points and another for normal day points 
   - For the `join_week_points CTE`
     - Here we want to calculate the points earned by each customer on their join week
     - Multiply the price x 20 and SUM all the points
@@ -321,7 +321,7 @@ ON     j.customer_id = n.customer_id
 
   <img width="300" src="https://user-images.githubusercontent.com/94410139/158183700-39da11dc-067d-42e7-8367-86dc3c182031.png">
 #    
-- For this I used `CASE WHEN EXISTS`
+- For this we can use `CASE WHEN EXISTS`
   - When the `customer_id EXISTS in the members table and the order_date is after or on the join_date` then 'Y' (they are a member at that time), else 'N' (they are not)
  
 ```sql
