@@ -83,9 +83,12 @@ This case study has LOTS of questions - they are broken up by area of focus incl
 #
 ## What can you practice with this case study?
 - Data Cleaning
+- Creating Tables
+- Using CROSS APPLY
 - JOINS
-- Aggregate Functions
+- Aggregate Functions including STRING_AGG()
 - CTE's
 - CASE Statements
 - Subqueries
-- 
+- String Functions like CONCAT() 
+- As well as other operators and clauses
