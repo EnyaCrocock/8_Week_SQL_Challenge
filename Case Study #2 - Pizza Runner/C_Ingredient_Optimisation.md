@@ -290,7 +290,7 @@ GROUP  BY c.record_id, c.order_id, c.customer_id, c.pizza_id, c.exclusions, c.ex
 - Here we want a list of the all the ingredients and a SUM of how many times each one has been used, in DESCENDING order (most used first).
 
 #### One way to achieve this
-- Create a CTE
+- Create a `CTE`:
 - In this CTE we are going to SELECT the record_id, the pizza_name, the topping_name, create a CASE Statement to show the times every ingredient was used in each pizza.
   - The `CASE Statemet`:
     - We want to generate a column (I called it times_used) where it shows a 2 by any record (so, any pizza) that has a topping in its list of ingredients (topping_id) that exists in the extras_id column in the [##extras table](#new-extras-table) (so, when that topping was added as an extra). Then a 0 by any record (so, any pizza) that has a topping in its list of ingredients (topping_id) that exists in the exclusions_id column in the [##exclusions table](#new-exclusions-table) (so, when that topping was removed). And a 1 by anythig else. 
