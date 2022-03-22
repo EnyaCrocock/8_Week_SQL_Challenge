@@ -138,9 +138,9 @@ These next few questions did give me a headache... but I'm going to try to expla
 - What this question is asking is for you to create a column in the customer_orders table where, for every record, it tells you the name of the pizza ordered as well as the names of any toppings added as extras or exclusions.
 
 #### One way to achieve this
-- Create `2 CTE's`: One for exclusions and one for extras.
+- Create `2 CTEs`: One for exclusions and one for extras.
   - We want to know what was excluded or added to each pizza.
-  - In these CTE's we are going to SELECT the record_id (The unique identifier for every pizza ordered, [that we created in the data cleaning section](#2-table-customer_orders)) and the topping_name for those extras or exclusions.
+  - In these CTEs we are going to SELECT the record_id (The unique identifier for every pizza ordered, [that we created in the data cleaning section](#2-table-customer_orders)) and the topping_name for those extras or exclusions.
     - We are using `STRING_AGG` to show those topping names in a comma delimited list (as that is how we need them in the final output).
     
 - In the `final SELECT Statement` we are going to want to SELECT every column in the customer_orders table and create a CASE Statement to create that order_item column we want.
