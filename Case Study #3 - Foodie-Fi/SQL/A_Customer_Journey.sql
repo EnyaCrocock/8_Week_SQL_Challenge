@@ -1,10 +1,10 @@
 -- A. Customer Journey -- 
 
 SELECT s.customer_id,
-	   p.plan_name,
-	   s.start_date,
-	   start_date - LAG(start_date) OVER (PARTITION BY customer_id ORDER BY start_date) AS days_difference,
-	   ROUND((start_date - LAG(start_date) OVER (PARTITION BY customer_id ORDER BY start_date)) * 0.0329, 0) AS months_difference
+       p.plan_name,
+       s.start_date,
+       start_date - LAG(start_date) OVER (PARTITION BY customer_id ORDER BY start_date) AS days_difference,
+       ROUND((start_date - LAG(start_date) OVER (PARTITION BY customer_id ORDER BY start_date)) * 0.0329, 0) AS months_difference
 FROM   subscriptions AS s
 JOIN   plans AS p
 ON     s.plan_id = p.plan_id
