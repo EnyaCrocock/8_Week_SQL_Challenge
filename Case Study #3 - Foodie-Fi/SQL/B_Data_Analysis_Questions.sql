@@ -29,13 +29,13 @@ ORDER  BY events DESC
 
 WITH churned AS (
                  SELECT SUM(CASE
-						        WHEN plan_id = 4 
-						        THEN 1
-						        ELSE 0
-						    END) AS customers_churned,
-	                    COUNT(DISTINCT customer_id) AS total_customers
-	             FROM   subscriptions
-	            )
+			        WHEN plan_id = 4 
+			        THEN 1
+			        ELSE 0
+			   END) AS customers_churned,
+	                COUNT(DISTINCT customer_id) AS total_customers
+	         FROM   subscriptions
+                )
 SELECT customers_churned,
        ROUND(CAST(customers_churned AS DECIMAL) / CAST(total_customers AS DECIMAL) * 100, 1) AS percent_of_total
 FROM   churned
@@ -45,12 +45,13 @@ FROM   churned
 WITH churned AS ( 
                  SELECT customer_id,
 	                    CASE
-                            WHEN plan_id = 0 AND LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date) = 4
-	 					    THEN 1
-	                        ELSE 0
-	                    END AS churned_post_trial
-	             FROM  subscriptions
-	            )
+                            WHEN plan_id = 0 
+	                         AND LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date) = 4
+	                    THEN 1
+	                    ELSE 0
+	                END AS churned_post_trial
+	          FROM  subscriptions
+                 )
 SELECT SUM(churned_post_trial) AS count_churned_post_trial,
        ROUND(CAST(SUM(churned_post_trial) AS DECIMAL) / CAST(COUNT(DISTINCT customer_id) AS DECIMAL) * 100, 0) AS percent_of_total
 FROM   churned
@@ -59,21 +60,21 @@ FROM   churned
 
 WITH customer_plans AS ( 
                         SELECT customer_id,
-							   plan_id,
-							   CASE
-                                   WHEN plan_id = 0 
-                                   THEN LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date)
-      							   ELSE NULL
-							   END AS plan_post_trial
-					    FROM   subscriptions
+	                       plan_id,
+	                       CASE
+	                           WHEN plan_id = 0 
+	                           THEN LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date)
+	                           ELSE NULL
+	                       END AS plan_post_trial
+	                FROM   subscriptions
                        ),
    total_customers AS (
                        SELECT COUNT(DISTINCT customer_id) AS total_customers
                        FROM   subscriptions
-   					  )
+                      )
 SELECT p.plan_name,
        COUNT(c.plan_post_trial) AS customers_post_trial,
-	   ROUND(CAST(COUNT(c.plan_post_trial) AS DECIMAL) / CAST(t.total_customers AS DECIMAL) * 100, 2) AS percent_of_total 
+       ROUND(CAST(COUNT(c.plan_post_trial) AS DECIMAL) / CAST(t.total_customers AS DECIMAL) * 100, 2) AS percent_of_total 
 FROM   total_customers AS t, 
        customer_plans AS c      
 JOIN   plans AS p
@@ -86,22 +87,22 @@ ORDER  BY customers_post_trial DESC
 	 
 WITH customer_plans AS ( 
                         SELECT customer_id,
-	                           plan_id,
-							   start_date,
-							   RANK() OVER (PARTITION BY customer_id ORDER BY start_date DESC) AS rank
-					    FROM   subscriptions
-	 					WHERE  start_date <= '2020-12-31'
+	                       plan_id,
+	                       start_date,
+	                       RANK() OVER (PARTITION BY customer_id ORDER BY start_date DESC) AS rank
+	                FROM   subscriptions
+	                WHERE  start_date <= '2020-12-31'
                        ),
    total_customers AS (
                        SELECT COUNT(DISTINCT customer_id) AS total_customers
                        FROM   subscriptions
-	   				   WHERE  start_date <= '2020-12-31'
-   					  )
+	               WHERE  start_date <= '2020-12-31'
+                      )
 SELECT p.plan_name,
-	   COUNT(c.customer_id) AS customer_count,
-	   ROUND(CAST(COUNT(c.customer_id) AS DECIMAL) / CAST(t.total_customers AS DECIMAL) * 100, 2) AS percent_of_total
+       COUNT(c.customer_id) AS customer_count,
+       ROUND(CAST(COUNT(c.customer_id) AS DECIMAL) / CAST(t.total_customers AS DECIMAL) * 100, 2) AS percent_of_total
 FROM   total_customers AS t,
-	   customer_plans AS c
+       customer_plans AS c
 JOIN   plans AS p
 ON     c.plan_id = p.plan_id
 WHERE  c.rank = 1
@@ -122,18 +123,18 @@ GROUP  BY p.plan_name
 -- 9. How many days on average does it take for a customer to upgrade to an annual plan from the day they join Foodie-Fi?
 
 WITH join_date AS ( 
-	               SELECT customer_id,
-					      MIN(start_date) AS join_date
-				   FROM   subscriptions
-				   GROUP  BY customer_id
-	              ),
+	           SELECT customer_id,
+	                  MIN(start_date) AS join_date
+	           FROM   subscriptions
+	           GROUP  BY customer_id
+                  ),
   upgrade_date AS (
                    SELECT customer_id,
-  					      start_date AS upgrade_date
-  				   FROM   subscriptions
-  				   WHERE  plan_id = 3
-  				   GROUP  BY customer_id, start_date
-  				  )
+	                  start_date AS upgrade_date
+	           FROM   subscriptions
+	           WHERE  plan_id = 3
+	           GROUP  BY customer_id, start_date
+                  )
 SELECT ROUND(AVG(CAST(upgrade_date - join_date AS DECIMAL)), 0) AS average_days
 FROM   join_date AS j
 JOIN   upgrade_date AS u
@@ -142,34 +143,34 @@ ON     j.customer_id = u.customer_id
 -- 10. Can you further breakdown this average value into 30 day periods (i.e. 0-30 days, 31-60 days etc)
 
 WITH join_date AS ( 
-	               SELECT customer_id,
-					      MIN(start_date) AS join_date
-				   FROM   subscriptions
-				   GROUP  BY customer_id
-	              ),
+	           SELECT customer_id,
+	                  MIN(start_date) AS join_date
+	           FROM   subscriptions
+	           GROUP  BY customer_id
+                  ),
   upgrade_date AS (
                    SELECT customer_id,
-  					      start_date AS upgrade_date
-  				   FROM   subscriptions
-  				   WHERE  plan_id = 3
-  				   GROUP  BY customer_id, start_date
-  				  ),
+	                  start_date AS upgrade_date
+	           FROM   subscriptions
+	           WHERE  plan_id = 3
+	           GROUP  BY customer_id, start_date
+                  ),
       buckets AS ( 
-		          SELECT WIDTH_BUCKET(upgrade_date - join_date, 0, 360, 12) AS bucket,
-		  				 COUNT(u.customer_id) AS customer_count,
+	          SELECT WIDTH_BUCKET(upgrade_date - join_date, 0, 360, 12) AS bucket,
+	                 COUNT(u.customer_id) AS customer_count,
                          ROUND(AVG(CAST(u.upgrade_date - j.join_date AS DECIMAL)), 0) AS average_days
-				  FROM   join_date AS j
-			      JOIN   upgrade_date AS u
-			      ON     j.customer_id = u.customer_id
-				  GROUP  BY WIDTH_BUCKET(upgrade_date - join_date, 0, 360, 12)
-				  ORDER BY bucket
-		         )
+	          FROM   join_date AS j
+	          JOIN   upgrade_date AS u
+	          ON     j.customer_id = u.customer_id
+	          GROUP  BY WIDTH_BUCKET(upgrade_date - join_date, 0, 360, 12)
+	          ORDER BY bucket
+                 )
 SELECT CASE 
            WHEN bucket = 1 
-		   THEN CONCAT((bucket - 1) * 30,' - ', bucket * 30, ' days') 
-		   ELSE CONCAT((bucket - 1) * 30 + 1,' - ', bucket * 30, ' days')
-	   END AS period,
-	   customer_count,
+	   THEN CONCAT((bucket - 1) * 30,' - ', bucket * 30, ' days') 
+	   ELSE CONCAT((bucket - 1) * 30 + 1,' - ', bucket * 30, ' days')
+       END AS period,
+       customer_count,
        average_days
 FROM   buckets
 GROUP  BY bucket, customer_count, average_days
@@ -179,14 +180,14 @@ ORDER  BY bucket
 
 WITH downgrade AS ( 
                    SELECT customer_id,
-                   CASE 
-                       WHEN plan_id = 2 AND LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date) = 1
-	                   THEN 1
-		               ELSE 0
-	               END AS downgraded_to_basic
-                   FROM subscriptions
-				   WHERE DATE_PART('YEAR', start_date) = 2020
-				  )
+	                  CASE 
+	                      WHEN plan_id = 2 AND LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date) = 1
+	                      THEN 1
+	                      ELSE 0
+	                  END AS downgraded_to_basic
+	           FROM   subscriptions
+	           WHERE  DATE_PART('YEAR', start_date) = 2020
+                  )
 SELECT SUM(downgraded_to_basic) AS customers_downgraded
 FROM   downgrade
 
