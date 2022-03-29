@@ -13,7 +13,7 @@ Try to keep it as short as possible - you may also want to run some sort of join
 - We can also add a column to show how long it took them to change, upgrade or cancel their subscription. 
   - For this we can use the `LAG()` Window Function:
   
-    > `LAG()` let's you compare the current row to the previous row (or row above). 
+    > `LAG()` let's you compare the current row to the previous row (or row above), it lets you access the value on the previous row from the current row. 
 
     - We want to know the difference in DAYS between the start_date of each plan and the start_date of the previous plan:
       - start_date - LAG(start_date) OVER (PARTITION BY customer_id ORDER BY start_date) 
