@@ -2,6 +2,7 @@
 
 <p align="right"> Using PostgreSQL </p>
 
+#
 ## Question
 Based off the 8 sample customers provided in the sample from the subscriptions table (customer_id 1, 2, 11, 13, 15, 16, 18, 19), write a brief description about each customer’s onboarding journey.
 Try to keep it as short as possible - you may also want to run some sort of join to make your explanations a bit easier!
