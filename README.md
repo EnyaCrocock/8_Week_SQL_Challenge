@@ -12,7 +12,7 @@ Each case study contains a dataset with a series of questions to practice your S
 ## 📌 Case Studies
 - [Case Study #1 - Danny's Diner](#-case-study-1---dannys-diner)
 - [Case Study #2 - Pizza Runner](#-case-study-2---pizza-runner)
-
+- [Case Study #3 - Foodie-Fi](#-case-study-3---foodie-fi)
 #
 
 
@@ -51,3 +51,22 @@ Danny started by recruiting “runners” to deliver fresh pizza from Pizza Runn
 ### My Solutions:
 - [Click Here](https://github.com/EnyaCrocock/8_Week_SQL_Challenge/tree/main/Case%20Study%20%232%20-%20Pizza%20Runner)
 
+#
+
+## 🥑 Case Study #3 - Foodie-Fi
+
+<img width="300" src="https://user-images.githubusercontent.com/94410139/160449485-68336255-3f3e-45af-94eb-388a3f9af974.png">
+
+## Introduction 
+
+Subscription based businesses are super popular and Danny realised that there was a large gap in the market - he wanted to create a new streaming service that only had food related content - something like Netflix but with only cooking shows!
+
+Danny finds a few smart friends to launch his new startup Foodie-Fi in 2020 and started selling monthly and annual subscriptions, giving their customers unlimited on-demand access to exclusive food videos from around the world!
+
+Danny created Foodie-Fi with a data driven mindset and wanted to ensure all future investment decisions and new features were decided using data. This case study focuses on using subscription style digital data to answer important business questions.
+
+### Questions & Dataset
+- [Click Here!](https://8weeksqlchallenge.com/case-study-3/)
+
+### My Solutions:
+- [Click Here](https://github.com/EnyaCrocock/8_Week_SQL_Challenge/tree/main/Case%20Study%20%233%20-%20Foodie-Fi)
