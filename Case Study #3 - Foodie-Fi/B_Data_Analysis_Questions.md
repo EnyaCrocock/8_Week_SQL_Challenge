@@ -103,7 +103,7 @@ FROM   churned
 	   - The CASE Statement:
 	     - Here we want to find out who went from having a free trial directly to a churn. Customers that passed from plan_id 0 directly to plan_id 4.
 		   - For this we can use the `LEAD()` Window Function. 
-		     > `LEAD()` allows you to compare the current row to the following row (or row below).  
+		     > `LEAD()` allows you to compare the current row to the following row (or row below). It lets you access the value on the following row from the current row.  
 		  - CASE WHEN the plan_id in the current row = 0 (free trial) and the next row has a plan_id of 4 (churn) 
 		  - THEN return 1
 		  - ELSE 0
