@@ -1,4 +1,4 @@
-# 🥑 C. Challenge Payment Question
+# 🥑 C. Challenge Payment Question Solution
 
 <p align="right"> Using PostgreSQL </p>
 
