@@ -114,12 +114,12 @@ FROM   churned
 ```sql
 WITH churned AS ( 
                  SELECT customer_id,
-	                    CASE
-                          WHEN plan_id = 0 
-                               AND LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date) = 4
-                          THEN 1
-                          ELSE 0
-                      END AS churned_post_trial
+		        CASE
+			    WHEN plan_id = 0 
+			         AND LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date) = 4
+		            THEN 1
+			    ELSE 0
+			END AS churned_post_trial
                  FROM  subscriptions
                 )
 SELECT SUM(churned_post_trial) AS count_churned_post_trial,
@@ -300,7 +300,7 @@ ON     j.customer_id = u.customer_id
 - Final `Select Statement`:
  - The buckets CTE will look like this:
 
-    ![image](https://user-images.githubusercontent.com/94410139/160493303-78a0f419-1eb4-4237-963c-151c15904761.png)
+      ![image](https://user-images.githubusercontent.com/94410139/160493303-78a0f419-1eb4-4237-963c-151c15904761.png)
     - We want to rename each bucket to the period of days, so bucket 1 will be 0 - 30 days, bucket 2 will be 31 - 60 days... 
       - For that we need to create a math formula:
         - For the lower bound of the period want (the bucket number - 1) * 30 + 1. Example, Bucket 2 would be: (2 - 1) * 30 + 1 = 31
