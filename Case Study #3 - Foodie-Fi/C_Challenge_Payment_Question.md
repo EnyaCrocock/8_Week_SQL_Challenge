@@ -27,12 +27,14 @@ Example outputs for this table might look like the following:
       - THEN end on the start_date (there is no recurring payments for any of them)
       - WHEN the plan_id is 1 or 2 AND the following plan is not the same (the plan changes)
       - THEN end on the day before the plan changes (not on the same day of the change)
-        - This is because we dont want this to happen: 
-        ![image](https://user-images.githubusercontent.com/94410139/160615865-4f34ae2b-312a-4c27-90d9-e446e53400f5.png)
+        - This is because we dont want this to happen:
+         
+           ![image](https://user-images.githubusercontent.com/94410139/160615865-4f34ae2b-312a-4c27-90d9-e446e53400f5.png)
         - Customer 19 won't be paying for plan 2 on 2020-08-29, only for plan 3. 
         - We can't let end date of one plan coincide with the start date of another. 
         - By making the series stop the day before, there wont be a month by which the date can increase so it will end on the 2020-07-29:
-        ![image](https://user-images.githubusercontent.com/94410139/160615189-b5747a96-7345-4b56-b3c7-2202f10107fc.png)
+        
+           ![image](https://user-images.githubusercontent.com/94410139/160615189-b5747a96-7345-4b56-b3c7-2202f10107fc.png)
       - ELSE END on '2020-12-31'
       - We want the dates to increment by 1 MONTH each time as plans 1 and 2 are payed monthly. 
   - We will also SELECT the prices as we will need them to calculate the amounts.
