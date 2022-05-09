@@ -156,13 +156,17 @@ WITH join_date AS (
 	           GROUP  BY customer_id, start_date
                   ),
       buckets AS ( 
-	          SELECT WIDTH_BUCKET(upgrade_date - join_date, 0, 360, 12) AS bucket,
+	          SELECT CASE 
+				WHEN upgrade_date - join_date = 0
+					THEN 1
+				ELSE WIDTH_BUCKET(upgrade_date - join_date, 1, 361, 12)
+				END AS bucket,
 	                 COUNT(u.customer_id) AS customer_count,
                          ROUND(AVG(CAST(u.upgrade_date - j.join_date AS DECIMAL)), 0) AS average_days
 	          FROM   join_date AS j
 	          JOIN   upgrade_date AS u
 	          ON     j.customer_id = u.customer_id
-	          GROUP  BY WIDTH_BUCKET(upgrade_date - join_date, 0, 360, 12)
+	          GROUP  BY bucket
 	          ORDER BY bucket
                  )
 SELECT CASE 
